@@ -1,0 +1,87 @@
+version: '1.0'
+name: build
+displayName: build
+triggers:
+  trigger: auto
+  push:
+    branches:
+      include:
+        - .*
+      exclude:
+        - master
+stages:
+  - name: construction
+    displayName: 构建
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: build@nodejs
+        name: build_nodejs
+        displayName: Nodejs 构建
+        nodeVersion: 17.8.0
+        commands:
+          - '# 设置NPM源，提升安装速度'
+          - npm config set registry https://registry.npmmirror.com
+          - ''
+          - '# 执行编译命令'
+          - npm install && npm run build:prod
+        artifacts:
+          - name: BUILD_ARTIFACT
+            path:
+              - ./dist
+        caches:
+          - ~/.npm
+          - ~/.yarn
+        notify: []
+        strategy:
+          retry: '0'
+  - name: publish
+    displayName: 发布
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: publish@general_artifacts
+        name: uploadproducts
+        displayName: 上传制品
+        dependArtifact: BUILD_ARTIFACT
+        artifactName: output
+        notify: []
+        strategy:
+          retry: '0'
+      - step: publish@release_artifacts
+        name: publish
+        displayName: 发布
+        dependArtifact: output
+        version: 1.0.0.0
+        autoIncrement: true
+        notify: []
+        strategy:
+          retry: '0'
+        dependsOn: uploadproducts
+  - name: deploymentserver
+    displayName: 部署服务器
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: deploy@agent
+        name: deploy_agent
+        displayName: 主机部署
+        hostGroupID:
+          ID: ZHXSI
+          hostID:
+            - 99753089-00dd-4295-a416-a3f98c9c7084
+        deployArtifact:
+          - source: artifact
+            name: output
+            target: ~/gitee_go/deploy
+            artifactRepository: release
+            artifactName: output
+            artifactVersion: latest
+        script:
+          - cd ~/gitee_go/deploy&&tar -zxf output.tar.gz&& rm -r /usr/local/rx/dist/&& mv dist /usr/local/rx/
+        notify: []
+        strategy:
+          retry: '0'
