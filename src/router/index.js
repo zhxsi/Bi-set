@@ -3,18 +3,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 // 路由跳转时的进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
+import homePage from './homePage/index.js'
 const routes = [
-  {
-    path: '/',
-    name: 'index',
-    meta: { title: `${import.meta.env.VITE_APP_TITLE}` },
-    component: () => import('@/views/index/index.vue'),
-    children: [
-      { path: '/log1', name: 'log1', meta: { title: 'log1', keepAlive: true }, component: () => import('@/views/log1.vue') },
-      { path: '/log2', name: 'log2', meta: { title: 'log2', keepAlive: true }, component: () => import('@/views/log2.vue') }
-    ]
-  }
+  homePage
 ]
 const router = createRouter({
   history: createWebHistory(),
