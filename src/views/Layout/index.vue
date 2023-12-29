@@ -5,10 +5,11 @@
         </el-aside>
         <el-container>
             <el-header>
-                123
+                <topnavigationBar />
             </el-header>
             <el-main>
                 <router-view />
+                {{ $t('hello') }}
             </el-main>
         </el-container>
     </el-container>
@@ -16,6 +17,7 @@
 
 <script setup>
 import sideNavigation from './sideNavigation/index.vue'
+import topnavigationBar from './topnavigationBar/index.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -31,10 +33,12 @@ import sideNavigation from './sideNavigation/index.vue'
     .el-container {
         .el-header {
             outline: 1px solid #eee;
+            padding: 0;
         }
 
         .el-main {
             outline: 1px solid #eee;
+            padding: 0;
         }
     }
 }

@@ -1,13 +1,15 @@
-import { defineConfig, loadEnv } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { fileURLToPath, URL } from 'node:url'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import ElementPlus from 'unplugin-element-plus/vite'
-import EslintPlugin from 'vite-plugin-eslint'
-import viteCompression from 'vite-plugin-compression'
+import { defineConfig, loadEnv } from 'vite'// vite
+import vue from '@vitejs/plugin-vue'// vue
+import { fileURLToPath, URL } from 'node:url'// nodejs
+import vueJsx from '@vitejs/plugin-vue-jsx'// jsx
+import AutoImport from 'unplugin-auto-import/vite'// 自动导入
+import Components from 'unplugin-vue-components/vite'// 组件自动导入
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'// element-plus自动导入
+import Icons from 'unplugin-icons/vite'// icons
+import IconsResolver from 'unplugin-icons/resolver'// icons
+import ElementPlus from 'unplugin-element-plus/vite'// element-plus
+import EslintPlugin from 'vite-plugin-eslint'// eslint
+import viteCompression from 'vite-plugin-compression'// gzip
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, fileURLToPath(new URL('./src/env', import.meta.url)))
   return {
@@ -15,16 +17,18 @@ export default defineConfig(({ command, mode }) => {
       vue(),
       vueJsx(),
       AutoImport({
-        resolvers: [ElementPlusResolver({ importStyle: 'sass' })],
+        resolvers: [ElementPlusResolver({ importStyle: 'sass' }), IconsResolver({ prefix: 'Icon' })],
         eslintrc: {
           enabled: true
         },
-        imports: ['vue', 'vue-router', { '@/stores': ['useStore'], 'element-plus': ['ElMessage'] }, '@vueuse/core']
+
+        imports: ['vue', 'vue-router', { '@/stores': ['useStore'], 'element-plus': ['ElMessage'] }, 'vue-i18n', '@vueuse/core']
       }),
       Components({
-        resolvers: [ElementPlusResolver({
-          importStyle: 'sass'
-        })]
+        resolvers: [ElementPlusResolver({ importStyle: 'sass' }), IconsResolver({ enabledCollections: ['ep'] })]
+      }),
+      Icons({
+        autoInstall: true
       }),
       ElementPlus({ useSource: true }),
       EslintPlugin(),
@@ -96,7 +100,7 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
-        '/assets': fileURLToPath(new URL('./src/assets', import.meta.url))
+        '~assets': fileURLToPath(new URL('./src/assets', import.meta.url))
       }
     },
     css: {
@@ -105,6 +109,8 @@ export default defineConfig(({ command, mode }) => {
           additionalData: `
           @use "@/assets/styles/element/light.scss";
           @use "@/assets/styles/element/dark.scss";
+          @use "@/assets/styles/mixin" as *;
+          @use "@/assets/styles/index" as *;
         `
         }
       }
