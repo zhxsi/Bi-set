@@ -9,9 +9,9 @@
             <!-- 消息 -->
             <div class="message">
                 <el-badge :value="120" class="item">
-                        <i-ep-Bell />
+                    <i-ep-Bell />
                 </el-badge>
-    <!-- <i-ep-search /> -->
+                <!-- <i-ep-search /> -->
 
             </div>
             <!-- 切换语言 -->
@@ -20,18 +20,31 @@
                     <option value="zh" selected>简体中文</option>
                     <option value="en">English</option>
                 </select> -->
-                    <el-button type="primary" @click="changeLang">{{ lang }}</el-button>
+                <el-button type="primary" @click="changeLang">{{ lang }}</el-button>
 
             </div>
             <!-- 用户信息 -->
             <div class="user">
-
+                <el-dropdown trigger="click">
+                    <span class="el-dropdown-link">
+                        <el-avatar src="https://store.zhxsi.link/动漫/IMG_20230322_220929.jpg">
+                            <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
+                        </el-avatar>
+                    </span>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item>设置</el-dropdown-item>
+                            <el-dropdown-item @click="quit">退出</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+
 const { locale } = useI18n()
 const lang = ref('English')
 const aa = ref('')
@@ -43,6 +56,10 @@ const changeLang = () => {
     lang.value = '简体中文'
     locale.value = 'en'
   }
+}
+const reload = inject('reload')
+const quit = () => {
+  reload()
 }
 </script>
 
@@ -101,6 +118,12 @@ const changeLang = () => {
             background-color: #eee;
             outline: 1px solid #a9a6a6;
             @include center;
+
+            .el-dropdown {
+                .el-avatar {
+                    cursor: pointer;
+                }
+            }
         }
     }
 }

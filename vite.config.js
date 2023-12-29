@@ -110,7 +110,6 @@ export default defineConfig(({ command, mode }) => {
           @use "@/assets/styles/element/light.scss";
           @use "@/assets/styles/element/dark.scss";
           @use "@/assets/styles/mixin" as *;
-          @use "@/assets/styles/index" as *;
         `
         }
       }
