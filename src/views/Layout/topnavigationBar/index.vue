@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import login from '@/components/login/index.vue'
+import login from '../../../components/login/index.vue'
 const aa = ref('')
 const store = useStore()
 // 切换语言
