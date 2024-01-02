@@ -12,7 +12,6 @@
                     <i-ep-Bell />
                 </el-badge>
                 <!-- <i-ep-search /> -->
-
             </div>
             <!-- 切换语言 -->
             <div class="language">
@@ -21,11 +20,10 @@
                     <option value="en">English</option>
                 </select> -->
                 <el-button type="primary" @click="changeLang">{{ lang }}</el-button>
-
             </div>
             <!-- 用户信息 -->
             <div class="user">
-                <el-dropdown trigger="click" v-if="store.user">
+                <el-dropdown trigger="click" v-if="store.account">
                     <span class="el-dropdown-link">
                         <el-avatar :src="store.img||''">
                             <el-image src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
@@ -48,6 +46,7 @@
 
 <script setup>
 import login from '@/components/login/index.vue'
+import { logout } from '@/api/login'
 const aa = ref('')
 const store = useStore()
 // 切换语言
@@ -68,7 +67,6 @@ const changeLang = () => {
 // 登录
 const dialogVisible = ref(false)
 const loginBtn = () => {
-  store.user = 'admin'
   dialogVisible.value = true
 }
 const hideDialog = () => {
@@ -77,8 +75,14 @@ const hideDialog = () => {
 // 退出
 const reload = inject('reload')
 const quit = () => {
-  store.user = null
-  reload()
+  logout().then((res) => {
+    console.log('res: ', res)
+    if (res.data.code === 200) {
+      store.setUser(null)
+      reload()
+      console.log('退出成功')
+    }
+  })
 }
 </script>
 

@@ -15,5 +15,10 @@
   "cancel": "cancel",
   "email": "email",
   "password": "password",
-  "account": "account"
+  "account": "account",
+  "passwordLogin": "passwordLogin",
+  "captchaLogin": "captchaLogin",
+  "captcha": "captcha",
+  "phone": "phone",
+  "qrcodeLogin": "qrcodeLogin"
 }

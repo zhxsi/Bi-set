@@ -8,12 +8,11 @@ export const useStore = defineStore('main', {
     }
   },
   getters: {
-    // cookie: (state) => {
-    //   return state.user !== null ? state.user.cookie : null
-    // },
-    // uid: (state) => {
-    //   return state.user !== null ? state.user.account.userId : null
-    // }
+    account: (state) => {
+      if (state.user !== null) {
+        return state.user.account !== undefined
+      }
+    }
   },
   // 定义修改state的函数，函数第一个参数是state
   actions: {

@@ -1,11 +1,11 @@
 <template>
     <div>
-    <button @click="store.user++">{{ store.user }}</button>
+    <!-- <button @click="store.user++">{{ store.user }}</button> -->
     </div>
 </template>
 
 <script setup>
-const store = useStore()
+// const store = useStore()
 </script>
 
 <style lang="scss" scoped>

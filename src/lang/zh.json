@@ -15,5 +15,10 @@
   "cancel": "取消",
   "email": "邮箱",
   "password": "密码",
-  "account": "账号"
+  "account": "账号",
+  "passwordLogin": "密码登录",
+  "captchaLogin": "验证码登录",
+  "captcha": "验证码",
+  "phone": "手机号",
+  "qrcodeLogin": "二维码登录"
 }

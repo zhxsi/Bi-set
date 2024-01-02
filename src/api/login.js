@@ -1,8 +1,32 @@
 import request from '@/utils/request'
-// 登录
-export function login (data) {
+// 游客登录
+export function visitorLogin (data) {
+  return request({
+    url: '/register/anonimous',
+    method: 'post',
+    params: data
+  })
+}
+// 邮箱登录
+export function emailLogin (data) {
   return request({
     url: '/login',
+    method: 'post',
+    params: data
+  })
+}
+// 手机登录
+export function phoneLogin (data) {
+  return request({
+    url: '/login/cellphone',
+    method: 'post',
+    params: data
+  })
+}
+// 发送验证码
+export function sendCaptcha (data) {
+  return request({
+    url: '/captcha/sent',
     method: 'post',
     params: data
   })

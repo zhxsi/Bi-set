@@ -11,14 +11,14 @@
 </template>
 
 <script setup>
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import zhcn from 'element-plus/dist/locale/zh-cn.mjs'
 import en from 'element-plus/dist/locale/en.mjs'
-const locale = ref(zhCn)
+const locale = ref(zhcn)
 // 切换语言
 const changeLanguage = (lang) => {
   switch (lang) {
     case 'zh-cn':
-      locale.value = zhCn
+      locale.value = zhcn
       break
     default:
       locale.value = en

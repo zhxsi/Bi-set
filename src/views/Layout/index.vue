@@ -10,6 +10,7 @@
             <el-main>
                 <router-view />
                 {{ $t('hello') }}
+                <el-button @click="ck">123</el-button>
             </el-main>
         </el-container>
     </el-container>
@@ -18,6 +19,24 @@
 <script setup>
 import sideNavigation from './sideNavigation/index.vue'
 import topnavigationBar from './topnavigationBar/index.vue'
+import { visitorLogin } from '@/api/login'
+import { loginStatus } from '@/api/user'
+const store = useStore()
+onMounted(() => {
+  if (!store.account) {
+    if (store.user === null) {
+      visitorLogin().then((res) => {
+        console.log('res: ', res)
+        store.setUser(res.data)
+      })
+    }
+  }
+})
+const ck = () => {
+  loginStatus().then((res) => {
+    console.log('res: ', res)
+  })
+}
 </script>
 
 <style lang="scss" scoped>
