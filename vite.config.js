@@ -10,6 +10,9 @@ import IconsResolver from 'unplugin-icons/resolver'// icons
 import ElementPlus from 'unplugin-element-plus/vite'// element-plus
 import EslintPlugin from 'vite-plugin-eslint'// eslint
 import viteCompression from 'vite-plugin-compression'// gzip
+import { visualizer } from 'rollup-plugin-visualizer'// 可视化捆绑大小
+import viteImagemin from 'vite-plugin-imagemin' // 图片压缩
+import mkcert from 'vite-plugin-mkcert'//  https
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, fileURLToPath(new URL('./src/env', import.meta.url)))
   return {
@@ -41,13 +44,43 @@ export default defineConfig(({ command, mode }) => {
           threshold: 1024 * 10,
           deleteOriginFile: true
         }
-      )
+      ),
+      visualizer(),
+      viteImagemin({
+        gifsicle: {
+          optimizationLevel: 7,
+          interlaced: false
+        },
+        optipng: {
+          optimizationLevel: 7
+        },
+        mozjpeg: {
+          quality: 20
+        },
+        pngquant: {
+          quality: [0.8, 0.9],
+          speed: 4
+        },
+        svgo: {
+          plugins: [
+            {
+              name: 'removeViewBox'
+            },
+            {
+              name: 'removeEmptyAttrs',
+              active: false
+            }
+          ]
+        }
+      }),
+      mkcert()
     ],
     server: {
       host: env.VITE_APP_HOST,
       port: env.VITE_APP_PORT,
       open: true,
-      cors: true
+      cors: true,
+      https: true
     },
     build: {
       rollupOptions: {
