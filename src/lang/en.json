@@ -9,6 +9,11 @@
   "text6": "text6",
   "text7": "text7",
   "text8": "text8",
-  "library":"library",
-  "mine":"mine"
+  "library": "library",
+  "mine": "mine",
+  "login": "login",
+  "cancel": "cancel",
+  "email": "email",
+  "password": "password",
+  "account": "account"
 }

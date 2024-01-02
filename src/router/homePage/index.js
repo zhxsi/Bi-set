@@ -11,7 +11,7 @@ const route = {
     },
     {
       path: '/text2',
-      meta: { title: 'text3', index: 2, icon: Minus },
+      meta: { title: 'text2', index: 2, icon: Minus },
       component: () => import('@/views/text/text2.vue')
     },
     {

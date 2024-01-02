@@ -25,10 +25,10 @@
             </div>
             <!-- 用户信息 -->
             <div class="user">
-                <el-dropdown trigger="click">
+                <el-dropdown trigger="click" v-if="store.user">
                     <span class="el-dropdown-link">
-                        <el-avatar src="https://store.zhxsi.link/动漫/IMG_20230322_220929.jpg">
-                            <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
+                        <el-avatar :src="store.img||''">
+                            <el-image src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
                         </el-avatar>
                     </span>
                     <template #dropdown>
@@ -38,27 +38,46 @@
                         </el-dropdown-menu>
                     </template>
                 </el-dropdown>
+                <!-- 登录 -->
+                <el-button type="primary" @click="loginBtn" v-else>登录</el-button>
             </div>
         </div>
     </div>
+    <login :dialogVisible="dialogVisible" @hideDialog="hideDialog" />
 </template>
 
 <script setup>
-
+import login from '@/components/login/index.vue'
+const aa = ref('')
+const store = useStore()
+// 切换语言
 const { locale } = useI18n()
 const lang = ref('English')
-const aa = ref('')
+const changeLanguage = inject('changeLanguage')
 const changeLang = () => {
   if (lang.value === '简体中文') {
     lang.value = 'English'
     locale.value = 'zh'
+    changeLanguage('zh-cn')
   } else {
     lang.value = '简体中文'
     locale.value = 'en'
+    changeLanguage('en')
   }
 }
+// 登录
+const dialogVisible = ref(false)
+const loginBtn = () => {
+  store.user = 'admin'
+  dialogVisible.value = true
+}
+const hideDialog = () => {
+  dialogVisible.value = false
+}
+// 退出
 const reload = inject('reload')
 const quit = () => {
+  store.user = null
   reload()
 }
 </script>
