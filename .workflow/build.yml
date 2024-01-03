@@ -76,7 +76,7 @@ stages:
         hostGroupID:
           ID: ZHXSI
           hostID:
-            - 99753089-00dd-4295-a416-a3f98c9c7084
+            - db302e84-e0bb-484c-9a2d-adbbcb665aaf
         deployArtifact:
           - source: artifact
             name: output
