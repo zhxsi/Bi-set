@@ -21,11 +21,13 @@ stages:
         displayName: Nodejs 构建
         nodeVersion: 17.8.0
         commands:
-          - sudo yum install curl -y
-          - curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
-          - sudo yum update -y && sudo yum install nodejs -y
           - '# 设置NPM源，提升安装速度'
           - npm config set registry https://registry.npmmirror.com
+          - node -v
+          - npm cache clean -f
+          - npm install -g n
+          - n lts
+          - node -v
           - '# 执行编译命令'
           - npm install && npm run build:prod
         artifacts:
