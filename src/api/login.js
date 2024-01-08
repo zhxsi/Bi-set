@@ -69,3 +69,11 @@ export function qrcodeGeneration (data) {
     data
   })
 }
+// 二维码检测扫码状态接口
+export function qrCodeCheck (data) {
+  return request({
+    url: '/login/qr/check',
+    method: 'post',
+    params: data
+  })
+}

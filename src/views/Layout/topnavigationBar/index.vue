@@ -8,30 +8,25 @@
         <div class="user-info">
             <!-- 消息 -->
             <div class="message">
-                <el-badge :value="120" class="item">
+                <el-badge :value="msg" class="item">
                     <i-ep-Bell />
                 </el-badge>
-                <!-- <i-ep-search /> -->
             </div>
             <!-- 切换语言 -->
             <div class="language">
-                <!-- <select name="lang" id="lang-select" @change="changeLang">
-                    <option value="zh" selected>简体中文</option>
-                    <option value="en">English</option>
-                </select> -->
                 <el-button type="primary" @click="changeLang">{{ lang }}</el-button>
             </div>
             <!-- 用户信息 -->
             <div class="user">
                 <el-dropdown trigger="click" v-if="store.account">
                     <span class="el-dropdown-link">
-                        <el-avatar :src="store.img||''">
+                        <el-avatar :src="store.user.profile.avatarUrl">
                             <el-image src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
                         </el-avatar>
                     </span>
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item>设置</el-dropdown-item>
+                            <el-dropdown-item @click="setUp" >设置</el-dropdown-item>
                             <el-dropdown-item @click="quit">退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
@@ -47,6 +42,10 @@
 <script setup>
 import login from '@/components/login/index.vue'
 import { logout } from '@/api/login'
+import { getCountryCode } from '@/api/common/countryCode'
+import { getMessage } from '@/api/message'
+import { userRecord } from '@/api/user'
+import { homeDiscovery, homeIconList, homeBanner } from '@/api/common/homePage'
 const aa = ref('')
 const store = useStore()
 // 切换语言
@@ -82,6 +81,34 @@ const quit = () => {
       reload()
       console.log('退出成功')
     }
+  })
+}
+onMounted(() => {
+  getMessage().then((res) => {
+    if (res.data.code === 200) {
+      msg.value = res.data.msg
+    }
+  })
+})
+// 设置
+const msg = ref('')
+const setUp = () => {
+  getCountryCode().then((res) => {
+    // console.log('res: ', res)
+  })
+
+  console.log('store.account: ', store.userId)
+  userRecord({ uid: store.userId }).then((res) => {
+    // console.log('res: ', res)
+  })
+  homeDiscovery().then((res) => {
+    // console.log('res123: ', res)
+  })
+  homeIconList().then((res) => {
+    // console.log('res123: ', res)
+  })
+  homeBanner().then((res) => {
+    // console.log('res123: ', res)
   })
 }
 </script>

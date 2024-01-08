@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { qrCodekey, qrcodeGeneration, emailLogin, phoneLogin } from '@/api/login.js'
+import { qrCodekey, qrcodeGeneration, emailLogin, phoneLogin, qrCodeCheck } from '@/api/login.js'
 import { md5Encrypt } from '@/utils/md5.js'
 const props = defineProps({
   dialogVisible: {
@@ -69,11 +69,31 @@ const qrcode = () => {
   clear()
   loading.value = true
   qrCodekey().then(res => {
-    qrcodeGeneration({ key: res.data.data.unikey, qrimg: true }).then(res => {
+    const key = res.data.data.unikey
+    qrcodeGeneration({ key, qrimg: true }).then(res => {
       form.qrimg = res.data.data.qrimg
-      loading.value = false
+      qrCodeCheck({ key }).then(res => {
+        console.log('res: ', res)
+        loading.value = false
+      })
     })
   })
+  console.log(123)
+  const ws = new WebSocket('ws://localhost:10000/mySocketUrl')
+  ws.onopen = function () {
+    // ws.send('-- 上线 --')
+    console.log('WebSocket服务 已连接')
+  }
+  ws.onmessage = function (event) {
+    console.log('event: ', event)
+  }
+
+  // ws.onclose = function () {
+  //   alert('WebSocket服务 已关闭')
+  // }
+  // ws.onerror = function (err) {
+  //   alert('Error:' + err)
+  // }
 }
 // 登录方式切换
 const LoginMethod = ref(1)

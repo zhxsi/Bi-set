@@ -14,3 +14,11 @@ export function loginStatus (data) {
     method: 'post'
   })
 }
+// 获取用户播放记录
+export function userRecord (data) {
+  return request({
+    url: '/user/record',
+    method: 'post',
+    params: data
+  })
+}
